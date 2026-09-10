@@ -1,8 +1,8 @@
 # ChromaCalm 🌿
 
-ChromaCalm is a clinical-grade, zero-install accessibility web tool and bookmarklet. It provides precise spectral notch filtering using SVG `<feColorMatrix>` primitives to help users suffering from photophobia, migraine, astigmatism, and screen halation.
+ChromaCalm is a zero-install accessibility web tool and bookmarklet. It provides precise spectral notch filtering using SVG `<feColorMatrix>` primitives to help users suffering from photophobia, migraine, astigmatism, and screen halation.
 
-By relying on native browser capabilities and applying research from Harvard Medical School, ChromaCalm delivers high-performance optical filtering across any operating system and device without requiring extensions or native app installation.
+By relying on native browser capabilities and applying published research on spectral notch filtering, ChromaCalm delivers high-performance optical filtering across any operating system and device without requiring extensions or native app installation.
 
 ## The Science
 
@@ -30,7 +30,7 @@ ChromaCalm implements three meticulously calibrated optical matrices:
 ## Usage & Installation
 
 ### Web App
-Open `https://[your-username].github.io/chromacalm/` (or open `chromacalm.html` directly from your filesystem).
+Open `https://markkirby125.github.io/chromacalm/` (or open `chromacalm.html` directly from your filesystem).
 
 The app will automatically pick a time-appropriate preset on load; you can change it at any time from the dropdown.
 
