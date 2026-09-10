@@ -95,7 +95,7 @@ ChromaCalm leverages a purely client-side architecture contained within a single
   3. Implement a "Download as CSV" button for the log data.
 - **Verification criteria:** Toggling filters populates the local log, and the CSV export correctly downloads the formatted history.
 
-### Phase 7: Audio Feedback Engine
+### Phase 7: ✅ Audio Feedback Engine
 - **Goal:** Provide non-visual confirmation when a filter activates.
 - **Files touched:** `chromacalm.html`
 - **Steps:**
@@ -105,7 +105,7 @@ ChromaCalm leverages a purely client-side architecture contained within a single
   4. Trigger the audio play alongside the filter application function.
 - **Verification criteria:** A soft tone plays exactly when a new filter preset is activated.
 
-### Phase 8: Sleep Preparation Preset + Time-of-Day Auto-Selection
+### Phase 8: ✅ Sleep Preparation Preset + Time-of-Day Auto-Selection
 - **Goal:** Implement the melatonin-safe mode and auto-default logic.
 - **Files touched:** `chromacalm.html`
 - **Steps:**
@@ -114,7 +114,7 @@ ChromaCalm leverages a purely client-side architecture contained within a single
   3. Default to Matte Paper (07-12), FL-41 (12-20), or Sleep Prep (20-07) on first load.
 - **Verification criteria:** Reloading the app at 22:00 automatically selects the Sleep Preparation preset.
 
-### Phase 9: GitHub Pages Deployment + README
+### Phase 9: ✅ GitHub Pages Deployment + README
 - **Goal:** Prepare the repository for public consumption.
 - **Files touched:** `README.md`, `.gitignore`, `LICENSE`, `.github/` config files.
 - **Steps:**
