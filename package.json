@@ -10,6 +10,6 @@
     "jsdom": "^25.0.0"
   },
   "keywords": ["accessibility", "a11y", "photophobia", "migraine", "light-therapy", "spectral-filter"],
-  "author": "Mark Kirby <mark.kirby125@googlemail.com>",
+  "author": "Paul Kirby",
   "license": "MIT"
 }
