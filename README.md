@@ -8,11 +8,12 @@ By relying on native browser capabilities and applying published research on spe
 
 Conventional dark modes (pure white text on a pitch-black background) frequently exacerbate visual distress. Extreme contrast causes **halation** (light scattering across the retina) for users with astigmatism or cataracts. Furthermore, standard display dimmers flatten contrast without altering the underlying spectral spikes—specifically the 480nm–500nm blue-cyan emissions that hyperactivate intrinsically photosensitive retinal ganglion cells (ipRGCs).
 
-ChromaCalm implements three meticulously calibrated optical matrices:
+ChromaCalm implements four optical matrices:
 
-1. **Harvard Narrow-Band Green (~520nm):** Isolates the precise optical wavelength identified by Dr. Rami Burstein (Harvard Medical School) to bypass thalamic nociceptive pathways and reduce migraine headache intensity.
-2. **Clinical FL-41 Rose Tint:** Digitally simulates the optical notch filter that attenuates 480nm–500nm wavelengths to relieve photophobia, benign essential blepharospasm, and post-concussion ocular fatigue.
-3. **Matte Paper / E-Ink Dynamic Range Clamping:** Compresses peak luminance while elevating black points to reduce halation and veiling glare, providing a warm, comfortable reading experience.
+1. **Harvard Green (~520nm):** Isolates the green subpixel channel. The ~520nm narrow-band green studied by Dr. Rami Burstein (Harvard Medical School) falls within this band.
+2. **Clinical FL-41 Rose Tint:** Reduces green to 70% and blue to 50% of the source, dampening the blue-cyan range implicated in photophobia and post-concussion ocular fatigue.
+3. **Matte Paper / E-Ink Dynamic Range Clamping:** Scales red and green to 90% and blue to 80%, with a small lift to the black point, reducing halation and veiling glare for a warm, comfortable reading experience.
+4. **Sleep Preparation:** Passes only the red channel for melatonin-safe red-only output.
 
 *(See our [research notes](https://github.com/markkirby125/vision-apps/blob/main/research/chromacalm-research.md) for sources and methodology).*
 
