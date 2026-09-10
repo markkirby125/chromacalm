@@ -1,0 +1,7 @@
+# ChromaCalm
+
+> Zero-install spectral notch filtering web tool for photophobia, migraine, and screen halation. By Paul Kirby.
+
+- Live app: https://markkirby125.github.io/chromacalm/
+- Repo: https://github.com/markkirby125/chromacalm
+- Part of Vision Apps: https://github.com/markkirby125/vision-apps

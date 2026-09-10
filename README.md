@@ -1,12 +1,18 @@
 # ChromaCalm 🌿
 
-ChromaCalm is a zero-install accessibility web tool and bookmarklet. It provides precise spectral notch filtering using SVG `<feColorMatrix>` primitives to help users suffering from photophobia, migraine, astigmatism, and screen halation.
+**For photophobia, migraine, astigmatism, and screen halation — filter any screen without installing anything.**
+
+ChromaCalm is a zero-install accessibility web tool and bookmarklet. It provides precise spectral notch filtering using SVG `<feColorMatrix>` primitives to help users suffering from photophobia, migraine, astigmatism, and screen halation. By [Paul Kirby](https://github.com/markkirby125).
+
+*Updated: 2026-09-10*
 
 By relying on native browser capabilities and applying published research on spectral notch filtering, ChromaCalm delivers high-performance optical filtering across any operating system and device without requiring extensions or native app installation.
 
-## The Science
+**Open [ChromaCalm](https://markkirby125.github.io/chromacalm/) now — it picks a time-appropriate filter automatically.**
 
-Conventional dark modes (pure white text on a pitch-black background) frequently exacerbate visual distress. Extreme contrast causes **halation** (light scattering across the retina) for users with astigmatism or cataracts. Furthermore, standard display dimmers flatten contrast without altering the underlying spectral spikes—specifically the 480nm–500nm blue-cyan emissions that hyperactivate intrinsically photosensitive retinal ganglion cells (ipRGCs).
+## Why dark modes hurt and how ChromaCalm filters them
+
+Conventional dark modes (pure white text on a pitch-black background) frequently exacerbate visual distress. Extreme contrast causes **halation** (light scattering across the retina) for users with astigmatism or cataracts. Standard display dimmers flatten overall contrast but leave the spectral spikes untouched—specifically the 480nm–500nm blue-cyan emissions that hyperactivate intrinsically photosensitive retinal ganglion cells (ipRGCs).
 
 ChromaCalm implements four optical matrices:
 
@@ -17,11 +23,13 @@ ChromaCalm implements four optical matrices:
 
 *(See our [research notes](https://github.com/markkirby125/vision-apps/blob/main/research/chromacalm-research.md) for sources and methodology).*
 
+> ChromaCalm is a visual-comfort aid, not a medical device or a treatment for migraines or other conditions.
+
 ## Features
 
 - **Spectral Filter Presets:** Harvard 520nm Green, FL-41 Rose, Matte Paper E-Ink, and Sleep Preparation (melatonin-safe red-only) filters.
 - **Time-of-Day Auto-Selection:** On first load, ChromaCalm automatically chooses Matte Paper for morning (07:00–12:00), FL-41 for daytime (12:00–20:00), and Sleep Preparation for evening/night (20:00–07:00).
-- **Audio Feedback Engine:** A brief, non-intrusive 440 Hz tone confirms when a filter preset is activated via user interaction.
+- **Audio Feedback Engine:** A brief 440 Hz tone confirms the filter changed, so you know the preset applied without looking.
 - **Draggable Bookmarklet & Userscript Export:** Works universally on Chrome, Firefox, Safari, and Edge. Drag the bookmarklet to your bar, or copy the Tampermonkey userscript for automatic site filtering.
 - **Green Light Bath:** Turn your display into a 520nm therapy lamp during an acute migraine. Uses the Screen Wake Lock API to prevent dimming.
 - **Anti-Halation Reader:** A distraction-free reading canvas for pasting raw text, Markdown, or HTML files during high-sensitivity episodes.
@@ -71,7 +79,7 @@ Please check the issue tracker for outstanding tasks and use the provided templa
 
 ## Part of the Vision Apps toolkit
 
-ChromaCalm is one of four accessibility tools in the [Vision Apps](https://github.com/markkirby125/vision-apps) toolkit — small, dependency-light projects that reduce visual strain for low-vision, photophobic and astigmatic readers.
+ChromaCalm is part of [Vision Apps](https://github.com/markkirby125/vision-apps), a four-tool accessibility kit for low-vision, photophobic and astigmatic readers.
 
 | Project | What it does |
 | --- | --- |
