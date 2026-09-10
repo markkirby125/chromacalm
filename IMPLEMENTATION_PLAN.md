@@ -121,7 +121,7 @@ ChromaCalm leverages a purely client-side architecture contained within a single
   1. Finalize the single-page HTML structure.
   2. Commit to the main branch.
   3. Ensure the README links to the GitHub Pages URL.
-- **Verification criteria:** The site is accessible via `https://[user].github.io/chromacalm/` and the bookmarklet functions identically from the live host.
+- **Verification criteria:** The site is accessible via `https://markkirby125.github.io/chromacalm/` and the bookmarklet functions identically from the live host.
 
 ## GitHub Project Setup
 ### Labels

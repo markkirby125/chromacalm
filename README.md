@@ -14,7 +14,7 @@ ChromaCalm implements three meticulously calibrated optical matrices:
 2. **Clinical FL-41 Rose Tint:** Digitally simulates the optical notch filter that attenuates 480nm–500nm wavelengths to relieve photophobia, benign essential blepharospasm, and post-concussion ocular fatigue.
 3. **Matte Paper / E-Ink Dynamic Range Clamping:** Compresses peak luminance while elevating black points to eliminate halation and veiling glare, providing a warm, comfortable reading experience.
 
-*(See our [clinical research documentation](./research/chromacalm-research.md) for full sources and methodology).*
+*(See our [research notes](https://github.com/markkirby125/vision-apps/blob/main/research/chromacalm-research.md) for sources and methodology).*
 
 ## Features
 
