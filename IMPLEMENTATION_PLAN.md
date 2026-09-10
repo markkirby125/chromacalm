@@ -1,7 +1,7 @@
 # ChromaCalm — Implementation Plan
 
 ## Overview
-ChromaCalm is a clinical-grade, zero-install accessibility web tool and bookmarklet. It provides precise spectral notch filtering using SVG `<feColorMatrix>` primitives to help users suffering from photophobia, migraine, astigmatism, and screen halation. By relying on native browser capabilities and applying research from Harvard Medical School and clinical FL-41 tints, it delivers high-performance filtering across any operating system and device.
+ChromaCalm is a zero-install accessibility web tool and bookmarklet. It provides precise spectral notch filtering using SVG `<feColorMatrix>` primitives to help users suffering from photophobia, migraine, astigmatism, and screen halation. By relying on native browser capabilities and applying published research on spectral notch filtering and FL-41 tints, it delivers high-performance filtering across any operating system and device.
 
 ## Scope Definition
 ### In Scope
@@ -48,13 +48,13 @@ ChromaCalm leverages a purely client-side architecture contained within a single
 - **Verification criteria:** Calling the filter function dynamically updates the entire viewport without causing the page to reload or breaking under `<base>` tag constraints.
 
 ### Phase 2: ✅ Preset Library
-- **Goal:** Encode the exact clinical matrices into selectable presets.
+- **Goal:** Encode the exact spectral matrices into selectable presets.
 - **Files touched:** `chromacalm.html`
 - **Steps:**
   1. Define a JavaScript configuration object containing the matrix values for the four core presets (Harvard 520nm Green, FL-41 Rose, Matte Paper, Sleep Preparation).
   2. Implement a UI toggle/dropdown to switch between presets.
   3. Ensure transitions gracefully fade from identity matrix or current matrix to the new target.
-- **Verification criteria:** User can cycle through all four presets, and visual output matches the clinical transmission profiles (e.g., pure green subpixel isolation for Harvard 520nm).
+- **Verification criteria:** User can cycle through all four presets, and visual output matches the target transmission profiles (e.g., pure green subpixel isolation for Harvard 520nm).
 
 ### Phase 3: ✅ UI Shell
 - **Goal:** Build the Anti-Halation Document Reader and main control dashboard.
