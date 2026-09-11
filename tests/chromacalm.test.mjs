@@ -63,3 +63,37 @@ test('meta description, favicon and JSON-LD are present', () => {
     assert.equal(ld['@type'], 'WebApplication');
     assert.equal(ld.name, 'ChromaCalm');
 });
+
+test('accessibility helpers are present and wired', () => {
+    const dom = load();
+    const doc = dom.window.document;
+
+    const skipLink = doc.querySelector('.skip-link');
+    assert.ok(skipLink, 'skip link present');
+    assert.equal(skipLink.getAttribute('href'), '#reader');
+
+    const journalBtn = doc.getElementById('journal-btn');
+    const toolsBtn = doc.getElementById('toggle-tools-btn');
+    assert.equal(journalBtn.getAttribute('aria-expanded'), 'false');
+    assert.equal(journalBtn.getAttribute('aria-controls'), 'journal-panel');
+    assert.equal(toolsBtn.getAttribute('aria-expanded'), 'false');
+    assert.equal(toolsBtn.getAttribute('aria-controls'), 'tools-panel');
+
+    assert.ok(doc.getElementById('file-input'), 'hidden file input present');
+    assert.ok(doc.getElementById('open-file-btn'), 'open file button present');
+
+    const dropZone = doc.getElementById('drop-zone');
+    assert.equal(dropZone.getAttribute('tabindex'), '0');
+    assert.ok(dropZone.hasAttribute('aria-label'));
+
+    const overlay = doc.getElementById('bath-stop-overlay');
+    assert.equal(overlay.getAttribute('tabindex'), '-1');
+    assert.equal(overlay.getAttribute('role'), 'button');
+
+    // CSP hygiene: no inline event handlers on interactive controls
+    const interactive = doc.querySelectorAll('button, select, a, input, textarea, [onclick], [onchange]');
+    for (const el of interactive) {
+        assert.ok(!el.hasAttribute('onclick'), `no onclick on ${el.tagName}#${el.id || el.className}`);
+        assert.ok(!el.hasAttribute('onchange'), `no onchange on ${el.tagName}#${el.id || el.className}`);
+    }
+});
