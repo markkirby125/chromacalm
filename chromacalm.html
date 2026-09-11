@@ -42,8 +42,23 @@
             font-size: 1.5rem;
             margin-right: auto;
         }
-        select {
+        .skip-link {
+            position: absolute;
+            top: -40px;
+            left: 0;
+            background: #FFB000;
+            color: #141416;
             padding: 0.5rem 1rem;
+            z-index: 10000;
+            text-decoration: none;
+            font-weight: bold;
+            border-radius: 0 0 4px 0;
+        }
+        .skip-link:focus {
+            top: 0;
+        }
+        select {
+            padding: 0.75rem 1rem;
             font-size: 1rem;
             cursor: pointer;
             background: #2a2a2e;
@@ -98,7 +113,7 @@
         }
         .bookmarklet-btn {
             display: inline-block;
-            padding: 0.5rem 1rem;
+            padding: 0.75rem 1rem;
             background: #4a4a52;
             color: #fff;
             text-decoration: none;
@@ -109,15 +124,15 @@
         .bookmarklet-btn:active {
             cursor: grabbing;
         }
-        #toggle-tools-btn, .copy-btn, #green-light-bath-btn, #journal-btn {
-            padding: 0.5rem 1rem;
+        #toggle-tools-btn, .copy-btn, #green-light-bath-btn, #journal-btn, #open-file-btn {
+            padding: 0.75rem 1rem;
             background: #2a2a2e;
             color: #D6D0C4;
             border: 1px solid #444;
             border-radius: 4px;
             cursor: pointer;
         }
-        #toggle-tools-btn:hover, .copy-btn:hover, #green-light-bath-btn:hover, #journal-btn:hover {
+        #toggle-tools-btn:hover, .copy-btn:hover, #green-light-bath-btn:hover, #journal-btn:hover, #open-file-btn:hover {
             background: #3a3a3e;
         }
         #userscript-out {
@@ -134,26 +149,29 @@
     </style>
 </head>
 <body>
+    <a href="#reader" class="skip-link">Skip to reader</a>
     <header class="dashboard">
         <h1>ChromaCalm</h1>
         <span id="status" role="status" aria-live="polite" style="margin-right: auto; font-size: 0.9rem; color: #aaa;"></span>
         <label for="preset-select">Select Filter Preset:</label>
-        <select id="preset-select" onchange="onPresetChange(event)">
+        <select id="preset-select">
             <option value="none">None (Off)</option>
             <option value="harvard">Harvard 520nm Green</option>
             <option value="fl41">FL-41 Rose</option>
             <option value="matte">Matte Paper</option>
             <option value="sleep">Sleep Preparation (Red)</option>
         </select>
-        <button id="green-light-bath-btn" onclick="startGreenLightBath(event)">Green Light Bath</button>
-        <button id="journal-btn" onclick="toggleJournal()">Journal</button>
-        <button id="toggle-tools-btn" onclick="toggleTools()">Export...</button>
+        <button id="green-light-bath-btn">Green Light Bath</button>
+        <button id="journal-btn" aria-expanded="false" aria-controls="journal-panel">Journal</button>
+        <button id="toggle-tools-btn" aria-expanded="false" aria-controls="tools-panel">Export...</button>
+        <button id="open-file-btn" type="button">Open File</button>
+        <input type="file" id="file-input" accept=".txt,.md,.html,text/*" style="display: none;">
     </header>
     
     <aside class="journal-panel" id="journal-panel" style="display: none;">
         <h3>Stimulus Journal</h3>
         <p>Your filter usage history.</p>
-        <button class="copy-btn" onclick="downloadJournalCSV()">Download as CSV</button>
+        <button class="copy-btn" id="download-journal-btn">Download as CSV</button>
         <div id="journal-log-container" style="max-height: 200px; overflow-y: auto; margin-top: 1rem; background: #111; padding: 0.5rem; border-radius: 4px; font-family: monospace; font-size: 0.9rem;">
         </div>
     </aside>
@@ -162,19 +180,19 @@
         <h3>Bookmarklet Generator</h3>
         <p>Drag the button below to your bookmarks bar, or copy the code for mobile.</p>
         <div class="bookmarklet-actions">
-            <a id="bookmarklet-link" href="#" class="bookmarklet-btn" onclick="event.preventDefault();">ChromaCalm: None</a>
-            <button class="copy-btn" onclick="copyBookmarklet()">Copy to Clipboard</button>
+            <a id="bookmarklet-link" href="#" class="bookmarklet-btn">ChromaCalm: None</a>
+            <button class="copy-btn" id="copy-bookmarklet-btn">Copy to Clipboard</button>
         </div>
         
         <h3>Tampermonkey Userscript</h3>
         <textarea id="userscript-out" readonly rows="12"></textarea>
     </aside>
     
-    <main class="reader-container" id="drop-zone">
+    <main class="reader-container" id="drop-zone" tabindex="0" aria-label="File drop zone. Press Enter or Space to open a file.">
         <textarea id="reader" aria-label="Document text reader" placeholder="Type here or drag and drop a .txt, .md, or .html file to read..."></textarea>
     </main>
 
-    <div id="bath-stop-overlay" style="display: none; position: fixed; inset: 0; z-index: 9999; cursor: pointer;" onclick="stopGreenLightBath()" role="button" aria-label="Stop Green Light Bath">
+    <div id="bath-stop-overlay" style="display: none; position: fixed; inset: 0; z-index: 9999; cursor: pointer;" role="button" aria-label="Stop Green Light Bath" tabindex="-1">
         <div style="position: absolute; bottom: 2rem; left: 50%; transform: translateX(-50%); background: rgba(0,0,0,0.6); color: #fff; padding: 0.75rem 1.25rem; border-radius: 4px; font-family: system-ui, sans-serif; pointer-events: none;">Tap anywhere to exit</div>
     </div>
 
@@ -352,9 +370,16 @@
 
         function toggleJournal() {
             const panel = document.getElementById('journal-panel');
-            panel.style.display = panel.style.display === 'none' ? 'block' : 'none';
-            if (panel.style.display === 'block') {
+            const btn = document.getElementById('journal-btn');
+            const isOpen = panel.style.display !== 'none';
+            panel.style.display = isOpen ? 'none' : 'block';
+            btn.setAttribute('aria-expanded', String(!isOpen));
+            if (!isOpen) {
                 updateJournalUI();
+                const firstFocusable = panel.querySelector('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])');
+                if (firstFocusable) firstFocusable.focus();
+            } else {
+                btn.focus();
             }
         }
 
@@ -486,7 +511,16 @@
         
         function toggleTools() {
             const panel = document.getElementById('tools-panel');
-            panel.style.display = panel.style.display === 'none' ? 'block' : 'none';
+            const btn = document.getElementById('toggle-tools-btn');
+            const isOpen = panel.style.display !== 'none';
+            panel.style.display = isOpen ? 'none' : 'block';
+            btn.setAttribute('aria-expanded', String(!isOpen));
+            if (!isOpen) {
+                const firstFocusable = panel.querySelector('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])');
+                if (firstFocusable) firstFocusable.focus();
+            } else {
+                btn.focus();
+            }
         }
         
         function copyBookmarklet() {
@@ -504,12 +538,42 @@
             }
         }
 
+        function loadFile(file) {
+            const validExtensions = ['.txt', '.md', '.html'];
+            const isMatch = validExtensions.some(ext => file.name.toLowerCase().endsWith(ext));
+            
+            if (isMatch || file.type.startsWith('text/')) {
+                const fileReader = new FileReader();
+                fileReader.onload = (evt) => {
+                    reader.value = evt.target.result;
+                };
+                fileReader.readAsText(file);
+            } else {
+                showStatus('Please select a .txt, .md, or .html file.', true);
+            }
+        }
+
         const dropZone = document.getElementById('drop-zone');
         const reader = document.getElementById('reader');
+        const fileInput = document.getElementById('file-input');
 
         // Initialize export code with default, then apply time-of-day preset
         generateExportCode('none', PRESETS.none);
         autoSelectPresetByHour();
+
+        document.getElementById('preset-select').addEventListener('change', onPresetChange);
+        document.getElementById('green-light-bath-btn').addEventListener('click', startGreenLightBath);
+        document.getElementById('journal-btn').addEventListener('click', toggleJournal);
+        document.getElementById('toggle-tools-btn').addEventListener('click', toggleTools);
+        document.getElementById('open-file-btn').addEventListener('click', () => fileInput.click());
+        document.getElementById('file-input').addEventListener('change', (e) => {
+            if (e.target.files && e.target.files.length > 0) {
+                loadFile(e.target.files[0]);
+            }
+        });
+        document.getElementById('download-journal-btn').addEventListener('click', downloadJournalCSV);
+        document.getElementById('copy-bookmarklet-btn').addEventListener('click', copyBookmarklet);
+        document.getElementById('bookmarklet-link').addEventListener('click', (e) => e.preventDefault());
 
         dropZone.addEventListener('dragover', (e) => {
             e.preventDefault();
@@ -526,26 +590,32 @@
             dropZone.style.background = 'transparent';
             
             if (e.dataTransfer.files && e.dataTransfer.files.length > 0) {
-                const file = e.dataTransfer.files[0];
-                const validExtensions = ['.txt', '.md', '.html'];
-                const isMatch = validExtensions.some(ext => file.name.toLowerCase().endsWith(ext));
-                
-                if (isMatch || file.type.startsWith('text/')) {
-                    const fileReader = new FileReader();
-                    fileReader.onload = (evt) => {
-                        reader.value = evt.target.result;
-                    };
-                    fileReader.readAsText(file);
-                } else {
-                    showStatus('Please drop a .txt, .md, or .html file.', true);
-                }
+                loadFile(e.dataTransfer.files[0]);
+            }
+        });
+
+        dropZone.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                fileInput.click();
+            }
+        });
+
+        const bathOverlay = document.getElementById('bath-stop-overlay');
+        bathOverlay.addEventListener('click', stopGreenLightBath);
+        bathOverlay.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' || e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                stopGreenLightBath();
             }
         });
 
         let wakeLock = null;
+        let greenLightBathTrigger = null;
 
         async function startGreenLightBath(e) {
             if (e) e.stopPropagation();
+            greenLightBathTrigger = document.activeElement;
             try {
                 setPreset('harvard', true);
                 
@@ -557,7 +627,8 @@
                     wakeLock = await navigator.wakeLock.request('screen');
                 }
 
-                document.getElementById('bath-stop-overlay').style.display = 'block';
+                bathOverlay.style.display = 'block';
+                bathOverlay.focus();
                 document.addEventListener('fullscreenchange', handleFullscreenChange);
             } catch (err) {
                 console.error('Error starting Green Light Bath:', err);
@@ -573,7 +644,7 @@
         }
 
         function stopGreenLightBath() {
-            document.getElementById('bath-stop-overlay').style.display = 'none';
+            bathOverlay.style.display = 'none';
             document.removeEventListener('fullscreenchange', handleFullscreenChange);
             
             if (wakeLock !== null) {
@@ -584,6 +655,10 @@
             }
             
             setPreset('none');
+            if (greenLightBathTrigger && greenLightBathTrigger.focus) {
+                greenLightBathTrigger.focus();
+                greenLightBathTrigger = null;
+            }
         }
     </script>
 </body>
