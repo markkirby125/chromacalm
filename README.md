@@ -61,10 +61,6 @@ The app will automatically pick a time-appropriate preset on load; you can chang
 
 *(Your journal is stored only in your browser's `localStorage` and never uploaded.)*
 
-## Screenshots
-
-*(Placeholder for future screenshots showing the FL-41 matrix applied to Wikipedia, and the Green Light Bath mode in action)*
-
 ## Contributing
 
 We welcome contributions from the community, especially from those with lived experience of photophobia, migraine, or low vision.
